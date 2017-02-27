@@ -1,0 +1,17 @@
+﻿<Window x:Class="WpfGenerateExcel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfGenerateExcel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="97.089" Width="608.904">
+    <DockPanel>
+        <Button x:Name="generateButton" Content="Generate Excel" DockPanel.Dock="Top" Click="button_Click"/>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Name="StatusBar" />
+            </StatusBarItem>
+        </StatusBar>
+    </DockPanel>
+</Window>
