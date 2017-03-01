@@ -31,7 +31,7 @@ namespace WpfGenerateExcel
         {
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog()
             {
-                FileName = "AnyExcelFile",
+                FileName = "ExcelFileWithSparkline",
                 DefaultExt = ".xlsx",
                 Filter = "Excel Document (.xlsx)|*.xlsx"
             };

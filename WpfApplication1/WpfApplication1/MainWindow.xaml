@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="97.089" Width="608.904">
     <DockPanel>
-        <Button x:Name="generateButton" Content="Generate Excel" DockPanel.Dock="Top" Click="button_Click"/>
+        <Button x:Name="generateButton" Content="Generate Excel With Sparkline" DockPanel.Dock="Top" Click="button_Click"/>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock Name="StatusBar" />
