@@ -20,7 +20,7 @@ namespace WpfGenerateExcel
     /// </summary>
     public partial class MainWindow : Window
     {
-        string ExcelFileName { get; set; }
+        string WordDocName { get; set; }
 
         public MainWindow()
         {
@@ -31,9 +31,9 @@ namespace WpfGenerateExcel
         {
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog()
             {
-                FileName = "AnyExcelFile",
-                DefaultExt = ".xlsx",
-                Filter = "Excel Document (.xlsx)|*.xlsx"
+                FileName = "WithBarChart",
+                DefaultExt = ".docx",
+                Filter = "Word Document (.docx)|*.docx"
             };
 
             // Show save file dialog box
@@ -43,12 +43,12 @@ namespace WpfGenerateExcel
             if (result == true)
             {
                 // Save document
-                ExcelFileName = dlg.FileName;
+                WordDocName = dlg.FileName;
 
                 var generateExcel = new GeneratedClass();
-                generateExcel.CreatePackage(ExcelFileName);
+                generateExcel.CreatePackage(WordDocName);
 
-                StatusBar.Text = $"Success!  Generated: {ExcelFileName}";
+                StatusBar.Text = $"Success!  Generated: {WordDocName}";
 
             }
         }
