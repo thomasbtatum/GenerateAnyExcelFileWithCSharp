@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfGenerateExcel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="97.089" Width="608.904">
+        Title="Right To Left Demo" Height="97.089" Width="608.904">
     <DockPanel>
-        <Button x:Name="generateButton" Content="Generate Excel" DockPanel.Dock="Top" Click="button_Click"/>
+        <Button x:Name="generateButton" Content="Generate Right To Left Excel" DockPanel.Dock="Top" Click="button_Click"/>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock Name="StatusBar" />
