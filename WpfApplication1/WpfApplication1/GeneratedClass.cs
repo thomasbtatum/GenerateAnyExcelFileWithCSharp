@@ -23,9 +23,9 @@ namespace WpfGenerateExcel
                    "Language", "StartOfMessage", "EndOfMessage", "StartOfRecording",
                    "EndOfRecording", "Audio Channels"};
             MemoryStream memoryStream = new MemoryStream();
-            string filename = "ETMetaData.xlsx";
+            //string filename = "ETMetaData.xlsx";
             //  using (var workbook = SpreadsheetDocument.Create(destination, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook))
-            using (var workbook = SpreadsheetDocument.Create( memoryStream, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook, true))
+            using (var workbook = SpreadsheetDocument.Create( filePath, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook, true))
             {
                 var workbookPart = workbook.AddWorkbookPart();
                 workbook.WorkbookPart.Workbook = new Workbook();
@@ -38,7 +38,11 @@ namespace WpfGenerateExcel
 
                 Sheets sheets = workbook.WorkbookPart.Workbook.GetFirstChild<Sheets>();
                 string relationshipId = workbook.WorkbookPart.GetIdOfPart(sheetPart);
-                AddStyle(workbookPart, relationshipId);
+
+                WorkbookStylesPart workbookStylesPart = workbook.WorkbookPart.AddNewPart<WorkbookStylesPart>("rIdStyles");
+                GenerateWorkbookStylesPart1Content(workbookStylesPart);
+
+
                 uint sheetId = 1;
                 if (sheets.Elements<Sheet>().Count() > 0)
                 {
@@ -94,7 +98,10 @@ namespace WpfGenerateExcel
                     ////CreateCellForValue(columns[18], data., newRow);
                     //  i++;
                     sheetData.AppendChild(newRow);
+
                 }
+
+                workbook.WorkbookPart.Workbook.Save();
             }
             //memoryStream.Flush();
             //memoryStream.Position = 0;
@@ -145,19 +152,83 @@ namespace WpfGenerateExcel
             return value;
         }
 
-        private void AddStyle(WorkbookPart workbookPart, string id)
-        {
-            CellFormat lockFormat = new CellFormat() { ApplyProtection = true, Protection = new Protection() { Locked = true } };
-            WorkbookStylesPart sp = workbookPart.GetPartsOfType<WorkbookStylesPart>().FirstOrDefault();
+        //private void AddStyle(WorkbookPart workbookPart, string id)
+        //{
+        //    CellFormat lockFormat = new CellFormat() { ApplyProtection = true, Protection = new Protection() { Locked = true } };
+        //    WorkbookStylesPart sp = workbookPart.GetPartsOfType<WorkbookStylesPart>().FirstOrDefault();
 
-            if (sp == null)
-                sp = workbookPart.AddNewPart<WorkbookStylesPart>();
-            sp.Stylesheet = new Stylesheet();
-            sp.Stylesheet.CellFormats = new CellFormats();
-            sp.Stylesheet.CellFormats.AppendChild<CellFormat>(lockFormat);
-            sp.Stylesheet.CellFormats.Count = UInt32Value.FromUInt32((uint)sp.Stylesheet.CellFormats.ChildElements.Count);
-            sp.Stylesheet.Save();
-        }
+        //    if (sp == null)
+        //        sp = workbookPart.AddNewPart<WorkbookStylesPart>();
+        //    sp.Stylesheet = new Stylesheet();
+        //    sp.Stylesheet.CellFormats = new CellFormats();
+        //    sp.Stylesheet.CellFormats.AppendChild<CellFormat>(lockFormat);
+        //    sp.Stylesheet.CellFormats.Count = UInt32Value.FromUInt32((uint)sp.Stylesheet.CellFormats.ChildElements.Count);
+        //    sp.Stylesheet.Save();
+        //}
 
     }
 }
+
+/*
+ *  public void CreatePackage(string filePath)
+        {
+            using (SpreadsheetDocument package = SpreadsheetDocument.Create(filePath, SpreadsheetDocumentType.Workbook))
+            {
+                WriteExcelFile(GenerateDataSet(), package);
+            }
+        }
+
+        private DataSet GenerateDataSet()
+        {
+            DataTable table1 = new DataTable("patients");
+            table1.Columns.Add("name");
+            table1.Columns.Add("id");
+            table1.Rows.Add("sam", 1);
+            table1.Rows.Add("mark", 2);
+
+            DataTable table2 = new DataTable("medications");
+            table2.Columns.Add("id");
+            table2.Columns.Add("medication");
+            table2.Rows.Add(1, "atenolol");
+            table2.Rows.Add(2, "amoxicillin");
+
+            // Create a DataSet and put both tables in it.
+            DataSet set = new DataSet("office");
+            set.Tables.Add(table1);
+            set.Tables.Add(table2);
+
+            return set;
+
+        }
+
+        private static void WriteExcelFile(DataSet ds, SpreadsheetDocument spreadsheet)
+        {
+
+            spreadsheet.AddWorkbookPart();
+            spreadsheet.WorkbookPart.Workbook = new DocumentFormat.OpenXml.Spreadsheet.Workbook();
+
+            spreadsheet.WorkbookPart.Workbook.Append(new BookViews(new WorkbookView()));
+
+            WorkbookStylesPart workbookStylesPart = spreadsheet.WorkbookPart.AddNewPart<WorkbookStylesPart>("rIdStyles");
+
+            GenerateWorkbookStylesPart1Content(workbookStylesPart);
+            uint worksheetNumber = 1;
+            Sheets sheets = spreadsheet.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
+            foreach (DataTable dt in ds.Tables)
+            {
+                string worksheetName = dt.TableName;
+                WorksheetPart newWorksheetPart = spreadsheet.WorkbookPart.AddNewPart<WorksheetPart>();
+                Sheet sheet = new Sheet() { Id = spreadsheet.WorkbookPart.GetIdOfPart(newWorksheetPart), SheetId = worksheetNumber, Name = worksheetName };
+                newWorksheetPart.Worksheet = new Worksheet(new SheetViews(new SheetView() { WorkbookViewId = 0, RightToLeft = true }), new SheetData());
+                newWorksheetPart.Worksheet.Save();
+
+                sheets.Append(sheet);
+
+                WriteDataTableToExcelWorksheet(dt, newWorksheetPart);
+
+                worksheetNumber++;
+            }
+            spreadsheet.WorkbookPart.Workbook.Save();
+        }
+
+    */
